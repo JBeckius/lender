@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>home library application</title>
+  </head>
+  <body>
+    <h1>Title thingy</h1>
+    <p>I am the thing.</p>
+    <form>
+      <label> Title: <input type="text" id="bookTitle" required></label><br>
+      <label> Cover Image: <input type="url" id="bookCoverURL" required></label><br>
+      <label> Author: <input type="text" id="bookAuthor" required></label><br>
+      <label> Genre: <input type="text" id="bookGenre" required></label><br>
+      <label> Year Published: <input type="number" maxlength="4" id="bookYearPublished" required></label><br>
+      <label> Summary: <textarea cols="50" rows="6" id="bookSummary" required></textarea></label><br>
+      <label> Total copies: <input type="number" id="bookTotalCopies" required></label><br>
+
+      <input type="button" value="Submit" id="bookSubmit"/>
+
+    </form>
+    <script src="./scripts.js"></script>
+  </body>
+</html>
