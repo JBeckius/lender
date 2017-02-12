@@ -1,11 +1,14 @@
 var mongoose = require('mongoose');
-var bookSchema = require('./schemas/book.js');
+var bookSchema = require('./schemas/bookSchema.js');
 var Book = mongoose.model('Book', bookSchema);
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var morgan = require('morgan');
+var Books = require('./classes/books.js');
 
+mongoose.Promise = require('bluebird');
+//assert.equal(query.exec().constructor, require('bluebird'));
 // Config Biz
 var port = process.env.PORT || 8088;
 
@@ -32,41 +35,24 @@ app.get('/', function( req, res, next ) {
 app.post('/books', function( req, res, next ) {
   console.log(req.body);
   //res.json({ message: "API is get" });
-  var book = req.body;
+  var bookInfo = req.body;
 
-  var newBook = new Book({
-    title: book.title,
-    authors: [{ title: "Author", name: book.author }],
-    coverImage: book.coverURL,
-    genre: book.genre,
-    publishedYear: book.yearPublished,
-    summary: book.summary,
-    lending: {
-      totalCopies: book.totalCopies,
-      isLent: false,
-      lentTo: []
-    }
+  Books.insertOne(bookInfo, db)
+  .then(function(message) {
+    console.log("message bloop: ", message);
+
+      res.status(200).json({
+        success: true,
+        message: message.message
+      });
+  })
+  .catch(function(err) {
+    console.log("message scoop: ", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
   });
-
-  newBook.save(function(err) {
-    if(err) {
-      console.log(err);
-      console.error.bind(console, 'error saving document: ');
-
-      return res.status(500).json({
-                success: false,
-                message: 'Dang son, couldn\'t make your book'
-              });
-    } else {
-      return res.status(200).json({
-                success: true,
-                message: "Absolutely successful"
-              });
-    }
-
-
-  });
-
 });
 
 

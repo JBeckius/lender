@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Category = require('./category');
+var Category = require('./categorySchema');
 
 var bookSchema = {
   title: { type: String, required: true },
@@ -19,7 +19,7 @@ var bookSchema = {
 };
 
 module.exports = new mongoose.Schema(bookSchema);
-module.exports.productSchema = bookSchema;
+module.exports.bookSchema = bookSchema;
 
 /*
   Key categories for book lending library
