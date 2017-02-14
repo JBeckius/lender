@@ -37,18 +37,22 @@ app.post('/books', function( req, res, next ) {
   //res.json({ message: "API is get" });
   var bookInfo = req.body;
 
+  Book.findOne({title: bookInfo.title}).then(function(book) {
+    console.log("I got a thing out of the thing", book);
+  });
+
   Books.insertOne(bookInfo, db)
   .then(function(message) {
     console.log("message bloop: ", message);
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: message.message
       });
   })
   .catch(function(err) {
     console.log("message scoop: ", err);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: err.message
     })
